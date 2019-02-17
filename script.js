@@ -1,6 +1,5 @@
-
-var constants = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-var operations = ['~', '->', '|', '&', '!'];
+var constants = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '1', '0'];
+var operations = ['~', '-' , '>', '|', '&', '!'];
 var formula;
 
 function findInArray(array, temp) {
@@ -12,89 +11,56 @@ function findInArray(array, temp) {
     return false;
 }
 
-function findSubFormulas(formula) {    //   ((P~Q)~(!W))
-    var subFormulas = new Array(0);
-    var numOfOpen = 0;
-    var numOfClose = 0;
-    var subFormula = '';
-    for (var index = 0; index < formula.length; index++) {
+
+function getSubFormula(memory, subFormulas) {
+    var open = 0;
+    var close = 0;
+    var subFormula = new Array();
+
+    for (var index = memory; index < formula.length; index++) {
+        subFormula.push(formula[index]);
         if (formula[index] == '(') {
-            numOfOpen++;
-            subFormula += formula[index];
-            if (numOfOpen == numOfClose) {
-                subFormula = '';
-            } 
+            open++;
         }
-        else if (formula[index] == ')') {
-            numOfClose++;
-            subFormula += formula[index];
-            if (numOfOpen == numOfClose) {
-                subFormulas.push(subFormula);
-               // findSubFormular(subForula);
-            }
+
+        if (formula[index] == ')') {
+            close++;
         }
-        else {
-            subFormula += formula[index];
+
+        if (open == close) {
+            subFormulas.push(subFormula);
+            return;
         }
     }
-  /*  if (numOfOpen == 0) {
-        return;
-    }*/
-    console.log('LOOK' + subFormulas);
 }
 
-function Start() {
-    //var regexp = new RegExp();
-    //regexp = /(\d[0-6])|\d/;
+function check(subFormulas) {
+    var numOfOpen = 0;
+    var numOfClose = 0;
+    for (var index = 0; index < formula.length; index++) {
+        if (formula[index] == '(') {
+            getSubFormula(index, subFormulas);
+        }  else if (findInArray(constants, formula[index]) && !findInArray(subFormulas, formula[index]) && !findInArray(operations, formula[index])) {
+            subFormulas.push(formula[index]);        
+    }
+}
+}
+
+function start() {
     var input = document.getElementById("f1");
 
     formula = input.elements[0].value;
-    // var tact = parseInt(numbers.elements[2].value);
-    console.log(formula);
+    var subFormulas = new Array();
 
-    var numOfOpen = 0;
-    var numOfClose = 0;
-    var visited = new Array(0);
-    var numOfSubFormulas = 0;
-
-    //поиск подстрок!!!
-    //проверка того, что формула начинается не со скобок!!!
-    var subFormula = new Array(0);
-    for (var index = 0; index < formula.length; index++) {
-        if (formula[index] == '(') {
-            console.log('FOUND open');
-            numOfOpen++;
-        } else if (formula[index] == ')') {
-            numOfClose++;
-            console.log('FOUND close');
-        } else if (findInArray(constants, formula[index]) && !findInArray(visited, formula[index])) {
-            console.log('FOUND CONSTANT');
-            visited.push(formula[index]);
-        } else if (findInArray(operations, formula[index])) {
-            console.log('OPERATION ' + formula[index]);
-        } else if (formula[index] == '-') {
-            if (formula[index + 1] != '>') {
-                alert('Введены некорректные данные!1');
-                return;
-            }
-        } /*
-        else {
-            alert('Введены некорректные данные!2');
-            return;
-        }*/
+    check(subFormulas);
+    for (index1 = 0; index1 < subFormulas.length; index1++){
+        var str = '';
+        for (index2 = 0; index2 < subFormulas[index1].length; index2++){
+            str += subFormulas[index1][index2];            
+        }
+        console.log(str);
     }
-
-    for (var index = 0; index < visited.length; index++) {
-        console.log(visited[index]);
-    }
-
-    if (numOfOpen != numOfClose) {
-        alert('Введены некорректные данные!3');
-        return;
-    }
-    numOfSubFormulas = numOfOpen + visited.length;
-
-    console.log('ОТВЕТ: ' + numOfSubFormulas);
-
-    findSubFormulas(formula);
+    console.log('ОТВЕТ: ' + subFormulas.length);
 }
+
+//((P~Q)~((!W)&(!P)))
