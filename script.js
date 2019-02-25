@@ -1,3 +1,7 @@
+/*
+    author: Darya Volakh, 621702
+*/
+
 var constants = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '1', '0'];
 var operations = ['~', '-' , '>', '|', '&', '!'];
 var formula;
@@ -10,7 +14,6 @@ function findInArray(array, temp) {
     }
     return false;
 }
-
 
 function getSubFormula(memory, subFormulas) {
     var open = 0;
@@ -47,20 +50,40 @@ function check(subFormulas) {
 }
 
 function start() {
-    var input = document.getElementById("f1");
-
-    formula = input.elements[0].value;
+    var input = document.getElementById("form");    
     var subFormulas = new Array();
 
+    formula = input.elements[0].value;
+
+    if (formula==""){
+        alert("Empty field! Please, enter formula!")
+        return;
+    }
+
     check(subFormulas);
+    var body = document.querySelector("body");    
+    var newDiv = document.createElement("div");
+    var ol = document.createElement("ol");
+
+    newDiv.setAttribute("class","div_with_ol");
+    
     for (index1 = 0; index1 < subFormulas.length; index1++){
         var str = '';
         for (index2 = 0; index2 < subFormulas[index1].length; index2++){
             str += subFormulas[index1][index2];            
         }
-        console.log(str);
+        var content = document.createTextNode(str);
+        var li = document.createElement("li");
+        li.appendChild(content);
+       ol.appendChild(li);
     }
-    console.log('ОТВЕТ: ' + subFormulas.length);
+    newDiv.appendChild(ol);
+    body.appendChild(newDiv);
+
+    var answer = document.createElement("p");
+    var answerContent = document.createTextNode("Answer: " + subFormulas.length + ".");
+    answer.appendChild(answerContent);
+    body.appendChild(answer);
 }
 
 //((P~Q)~((!W)&(!P)))

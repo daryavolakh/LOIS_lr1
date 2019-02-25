@@ -1,14 +1,19 @@
+<!--
+    author: Darya Volakh, 621702
+-->
 <html>
-
 <head>
     <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Fredoka+One" rel="stylesheet">    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link href="styles.css" rel="stylesheet">
 </head>
-<body>
-    <form id="f1" action="/action_page.php">
-        Введите формулу: <input type="text" id = "1"> </input> <br>
+<body id="body">    
+    <span>Enter logical formula:</span>
+    <form id="form">
+        <input type="text" id="1"> </input>
     </form>    
-    <input type = "button" onclick = "start()" value = "Поиск подформул"></input>
-    <p></p>    
-<script src = "script.js"></script>
+    <button type="button" class="btn" onclick="start()" value="find">start</button>   
+    <script src = "script.js"></script>
 </body>
 </html>
