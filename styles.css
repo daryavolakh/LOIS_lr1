@@ -1,5 +1,13 @@
 /*
-    author: Darya Volakh, 621702
+    //////////////////////////////////////////////////////////////////////////////////////
+// Лабораторная работа 2 по дисциплине ЛОИС
+// Выполнена студенткой группы 621702 БГУИР Волах Д.Ю.
+// Подсчёт количества подформул в формуле логики высказываний.
+// 26.02.2019
+//
+// https://learn.javascript.ru/
+//
+    //////////////////////////////////////////////////////////////////////////////////////
 */
 
 body{
@@ -43,12 +51,16 @@ input:focus{
 
 .div_with_ol{
     display: flex;
+    flex-direction: column;
     justify-content: center;
     margin-top: 25px;
 }
 
 ol{
     text-align: left;
+    list-style-position: inside;
+    width: 50%;
+    transform: translateX(70%);
 }
 
 li{

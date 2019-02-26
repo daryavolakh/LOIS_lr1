@@ -1,5 +1,13 @@
 /*
-    author: Darya Volakh, 621702
+    //////////////////////////////////////////////////////////////////////////////////////
+// Лабораторная работа 2 по дисциплине ЛОИС
+// Выполнена студенткой группы 621702 БГУИР Волах Д.Ю.
+// Подсчёт количества подформул в формуле логики высказываний.
+// 26.02.2019
+//
+// https://learn.javascript.ru/
+//
+    //////////////////////////////////////////////////////////////////////////////////////
 */
 
 var constants = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '1', '0'];
@@ -8,7 +16,7 @@ var formula;
 
 function findInArray(array, temp) {
     for (var index = 0; index < array.length; index++) {
-        if (array[index] == temp) {
+        if (array[index].toString() == temp.toString()) {
             return true;
         }
     }
@@ -31,13 +39,15 @@ function getSubFormula(memory, subFormulas) {
         }
 
         if (open == close) {
-            subFormulas.push(subFormula);
+            if(findInArray(subFormulas,subFormula) == false) {
+                subFormulas.push(subFormula);
+            }
             return;
         }
     }
 }
 
-function check(subFormulas) {
+function findSubformulas(subFormulas) {
     var numOfOpen = 0;
     var numOfClose = 0;
     for (var index = 0; index < formula.length; index++) {
@@ -60,10 +70,12 @@ function start() {
         return;
     }
 
-    check(subFormulas);
+    findSubformulas(subFormulas);
     var body = document.querySelector("body");    
     var newDiv = document.createElement("div");
     var ol = document.createElement("ol");
+    var mainDiv = document.getElementById("gener_div");
+    mainDiv.innerHTML = "";
 
     newDiv.setAttribute("class","div_with_ol");
     
@@ -78,12 +90,11 @@ function start() {
        ol.appendChild(li);
     }
     newDiv.appendChild(ol);
-    body.appendChild(newDiv);
+    mainDiv.appendChild(newDiv);
 
     var answer = document.createElement("p");
     var answerContent = document.createTextNode("Answer: " + subFormulas.length + ".");
     answer.appendChild(answerContent);
-    body.appendChild(answer);
+    mainDiv.appendChild(answer);
 }
-
 //((P~Q)~((!W)&(!P)))
